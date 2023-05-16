@@ -3,24 +3,33 @@
     if ($con == false)
         die('Could not connect: ' . mysqli_connect_error());
 
-    $KMH = $_POST['KMH'];
+    $User_id = $_POST['UserID'];
+    $KWH = $_POST['KWH'];
     $Date = "'" .$_POST['Date'] ."'";
     $Diff_no = $_POST['Diff_no'];
-
 
     if($Diff_no == 1)
         $result = mysqli_query(
             $con,
-            "INSERT INTO `business electricity`(`User_id`, `KMH`, `Time`, `Diff_no`) 
-            VALUES (0," .$KMH ."," .$Date ."," .$Diff_no.")");
+            "INSERT INTO `business electricity`(`User_id`, `KWH`, `Time`, `Diff_no`) 
+            VALUES (".$User_id."," .$KWH ."," .$Date ."," .$Diff_no.")");
     else
         $result = mysqli_query(
             $con,
-            "INSERT INTO `residential electricity`(`User_id`, `KMH`, `Time`, `Diff_no`) 
-            VALUES (0," .$KMH .",'" .$Date ."'," .$Diff_no.")");
+            "INSERT INTO `residential electricity`(`User_id`, `KWH`, `Time`, `Diff_no`)
+            VALUES (".$User_id."," .$KWH .",'" .$Date ."'," .$Diff_no.")");
 
+    
     mysqli_close($con);
 
-    echo '<script>alert("Insert Complete!")</script>';
-    echo "document.location = 'start.php'";
+    if($result == false)
+        echo '<script>
+        alert("Insert failed")
+        window.location = "start.php"
+        </script>';
+    else
+        echo '<script>
+        alert("Insert Complete!")
+        window.location = "start.php"
+        </script>';
 ?>
