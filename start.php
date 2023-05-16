@@ -17,23 +17,14 @@
             <button class="tablinks" onclick="loadTab(event, 'Delete')">刪除</button>
         </div>
 
-        <script>
-            // Get the element with id="defaultOpen" and click on it
-            document.getElementById("defaultOpen").click();
-        </script>
-
         <div id="Search" class="tabcontent">
-            <form action="search.php">
+            <form action="search.php" method="post">
                 <label>
-                    使用者ID：<input type="text" id="ID輸入" name="UserID">
+                    開始時間：<input type="date" id="開始時間" name="Start_Date" value="<?php echo date('Y-m-d'); ?>">
                 </label>
 
                 <label>
-                    開始時間：<input type="date" id="開始時間" name="Start_Date">
-                </label>
-
-                <label>
-                    結束時間：<input type="date" id="結束時間" name="End_Date">
+                    結束時間：<input type="date" id="結束時間" name="End_Date" value="<?php echo date('Y-m-d'); ?>">
                 </label>
 
                 <select id="商業/住宅" name="Diff_no">
@@ -53,11 +44,15 @@
             <!-- <form action="https://httpbin.org/post" method="post"> -->
             <form action="insert.php" method="post">
                 <label>
-                    日期：<input type="date" id="日期輸入" name="Date">
+                    使用者ID：<input type="number" id="使用者ID" name="UserID">
                 </label>
 
                 <label>
-                    電表度數：<input type="number" id="電表度數輸入" name="KMH">
+                    日期：<input type="date" id="日期輸入" name="Date" value="<?php echo date('Y-m-d'); ?>">
+                </label>
+
+                <label>
+                    電表度數：<input type="number" id="電表度數輸入" name="KWH">
                 </label>
 
                 <select id="商業/住宅" name="Diff_no">
@@ -81,16 +76,25 @@
         <div id="Result">
             <table id="電表清單">
                 <tr id="標題">
-                    <th>
+                    <th style="width:5%">
+                        ID
+                    </th>
+                    <th style="width:30%">
                         日期
                     </th>
-                    <th>
+                    <th style="width:20%">
                         電表度數
+                    </th>
+                    <th style="width:5%">
+                        Diff_no
                     </th>
                 </tr>
             </table>
         </div>
 
-        
+        <script>
+            // Get the element with id="defaultOpen" and click on it
+            document.getElementById("defaultOpen").click();
+        </script>
     </body>
 </html>
