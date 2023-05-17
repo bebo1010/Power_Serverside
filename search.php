@@ -89,7 +89,6 @@
                     <th style="width:5%">
                         Diff_no
                     </th>
-                    </th>
                 </tr>
                 <?php
                     $con = new mysqli("localhost","root","RootAsAdmin", "database_report_gp10");
