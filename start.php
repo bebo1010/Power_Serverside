@@ -5,6 +5,9 @@
             電費試算
         </title>
         <link rel="stylesheet" href="./stylesheet/main.css">
+        <script src="./jquery-3.7.0.min.js">
+            
+        </script>
         <script src="./script/main.js">
 
         </script>
