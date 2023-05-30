@@ -8,15 +8,81 @@ $phone = $_POST['phone'];
 $cost = empty($_POST['custom_cost']) ? "NULL" : $_POST['custom_cost'];
 
 // echo $username . "<br>" . $password. "<br>" . $name. "<br>" . $sex. "<br>" . $phone. "<br>" . $cost;
+// create user with root
+$dsn = 'mysql:host=localhost';
+try{
+    $pdo = new PDO($dsn, "root", "RootAsAdmin");
+    
+    // Create user
+    $createUserSql = "CREATE USER :username@'localhost' IDENTIFIED WITH mysql_native_password BY :password";
+    $stmt = $pdo->prepare($createUserSql);
+    $stmt->bindValue(':username', $username);
+    $stmt->bindValue(':password', $password);
+    $stmt->execute();
 
-$sql_query = "INSERT INTO nativeUsers (username, password, name, phone) VALUES ('$username', '$password', '$name', '$phone')";
+    // Create database
+    $createDbSql = "CREATE DATABASE IF NOT EXISTS `$username`";
+    $pdo->exec($createDbSql);
 
-mysqli_query($db_link, $sql_query);
+    // Grant privileges to user
+    $grantSql = "GRANT ALL PRIVILEGES ON `$username`.* TO :username@'localhost'";
+    $stmt = $pdo->prepare($grantSql);
+    $stmt->bindValue(':username', $username);
+    $stmt->execute();
 
-$sql_findID = "SELECT * FROM nativeUsers WHERE username = '".$_POST['username']."'";
+    // Flush privileges
+    $pdo->exec("FLUSH PRIVILEGES");
+}
+catch (PDOException $e) {
+    echo "Connection failed: " . $e->getMessage(). "<br>";
+}
 
-$data = mysqli_query($db_link, $sql_findID);
-$user = mysqli_fetch_assoc($data);
+// add user with root
+$dsn = 'mysql:host=localhost;dbname=database_report_gp10';
+try{
+    $pdo = new PDO($dsn, "root", "RootAsAdmin");
+    $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+
+    $sqlScript = file_get_contents('./sql_scripts/add_user.sql');
+    
+    // Prepare the SQL script with placeholders
+    $stmt = $pdo->prepare($sqlScript);
+
+    // Bind the arguments to the placeholders
+    $stmt->bindParam(':username', $username);
+    $stmt->bindParam(':name', $name);
+    $stmt->bindParam(':sex', $sex);
+    $stmt->bindParam(':phone', $phone);
+    $stmt->bindParam(':cost', $cost);
+
+    if($stmt->execute()){
+        echo "User added to database successfully<br>";
+    }
+    else{
+        echo "Error adding user: ". $stmt->errorInfo()[2]. "<br>"; 
+    }
+}
+catch (PDOException $e) {
+    echo "Connection failed: " . $e->getMessage(). "<br>";
+}
+
+// add tables to user database
+$dsn = 'mysql:host=localhost;dbname='.$username;
+try {
+    $pdo = new PDO($dsn, $username, $password);
+    $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+
+    $files = glob("./sql_scripts/Register". "/*.sql");
+
+    foreach($files as $file){
+        $sqlScript = file_get_contents($file);
+        $pdo->exec($sqlScript);
+    }
+
+} 
+catch (PDOException $e) {
+    echo "Connection failed: " . $e->getMessage();
+}
 
 session_start();
 $_SESSION['username'] = $user['username'];
@@ -26,6 +92,6 @@ $_SESSION['custom_cost'] = $user['custom_cost'];
 // TODO: Create database and add tables to the database
 // header('Location: welcome.php');
 
-// CREATE USER $_SESSION['username']@'localhost' IDENTIFIED WITH caching_sha2_password BY '***';GRANT USAGE ON *.* TO $_SESSION['username']@'localhost';ALTER USER $_SESSION['username']@'localhost' REQUIRE NONE WITH MAX_QUERIES_PER_HOUR 0 MAX_CONNECTIONS_PER_HOUR 0 MAX_UPDATES_PER_HOUR 0 MAX_USER_CONNECTIONS 0;CREATE DATABASE IF NOT EXISTS `tester`;GRANT ALL PRIVILEGES ON `tester`.* TO $_SESSION['username']@'localhost';
+// 
 ?>
 

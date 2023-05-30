@@ -1,0 +1,1 @@
+INSERT INTO `user`(`Username`, `Name`, `Sex`, `Phone`, `Customize rate`) VALUES (:username,:name,:sex,:phone,:cost);
