@@ -1,3 +1,3 @@
-SELECT `User_id`, `KWH`, `Time`, `Diff_no`
-FROM `residential electricity`
-WHERE Time >= :Start_Date AND Time < :End_Date
+SELECT `Serial_no`, `Date`, `KWH`, `Use environment`
+FROM `electricity record`
+WHERE `Date` >= :Start_Date AND `Date` < :End_Date AND `Use environment` = :Environment;
