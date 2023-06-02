@@ -23,10 +23,9 @@ DROP TABLE IF EXISTS `electricity record`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!50503 SET character_set_client = utf8mb4 */;
 CREATE TABLE `electricity record` (
-  `Serial_no` int NOT NULL,
-  `User_id` int NOT NULL,
+  `Serial_no` int NOT NULL AUTO_INCREMENT,
   `Date` date NOT NULL,
-  `KMH` int NOT NULL,
+  `KWH` int NOT NULL,
   `Use environment` varchar(20) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   PRIMARY KEY (`Serial_no`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
