@@ -1,35 +1,38 @@
 <?php
-    $con = new mysqli("localhost","root","RootAsAdmin", "database_report_gp10");
-    if ($con == false)
-        die('Could not connect: ' . mysqli_connect_error());
-
-    $User_id = $_POST['UserID'];
-    $KWH = $_POST['KWH'];
-    $Date = "'" .$_POST['Date'] ."'";
-    $Diff_no = $_POST['Diff_no'];
-
-    if($Diff_no == 1)
-        $result = mysqli_query(
-            $con,
-            "INSERT INTO `business electricity`(`User_id`, `KWH`, `Time`, `Diff_no`) 
-            VALUES (".$User_id."," .$KWH ."," .$Date ."," .$Diff_no.")");
-    else
-        $result = mysqli_query(
-            $con,
-            "INSERT INTO `residential electricity`(`User_id`, `KWH`, `Time`, `Diff_no`)
-            VALUES (".$User_id."," .$KWH .",'" .$Date ."'," .$Diff_no.")");
-
+    session_start();
+    $dsn = 'mysql:host=localhost;dbname='.$_SESSION['username'];
+    try {
+        $pdo = new PDO($dsn, $_SESSION['username'], $_SESSION['password']);
     
-    mysqli_close($con);
+        $Date = $_POST['Date'];
+        $KWH = $_POST['KWH'];
+        $Environment = $_POST['Environment'];
+    
+        // Read the SQL script from a file or any other source
+        $sqlScript = file_get_contents('./sql_scripts/insert.sql');
 
-    if($result == false)
+        // Prepare the SQL script with placeholders
+        $stmt = $pdo->prepare($sqlScript);
+    
+        // Bind the arguments to the placeholders
+        $stmt->bindParam(':Date', $Date);
+        $stmt->bindParam(':KWH', $KWH);
+        $stmt->bindParam(':Environment', $Environment);
+
+        // Execute the prepared statement   
+        if(!$stmt->execute())
         echo '<script>
         alert("Insert failed")
-        window.location = "start.php"
+        window.location = "welcome.php"
         </script>';
-    else
+        else
         echo '<script>
         alert("Insert Complete!")
-        window.location = "start.php"
+        window.location = "welcome.php"
         </script>';
+    } 
+    catch (PDOException $e) {
+        echo "Connection failed: " . $e->getMessage();
+    }
+
 ?>
