@@ -1,7 +1,8 @@
 <?php
 
 $username = $_POST['username'];
-$password = password_hash($_POST['password'], PASSWORD_DEFAULT);
+// $password = password_hash($_POST['password'], PASSWORD_DEFAULT);
+$password = $_POST['password'];
 $name = $_POST['name'];
 $sex = $_POST['sex'];
 $phone = $_POST['phone'];
