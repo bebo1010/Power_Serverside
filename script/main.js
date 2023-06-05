@@ -111,7 +111,8 @@ function create_modify_form(id){
     confirm_button = document.getElementById("Confirm_" + id)
 
     modify_form = document.createElement("form")
-    modify_form.action = "https://httpbin.org/post"
+    // modify_form.action = "https://httpbin.org/post"
+    modify_form.action = "./modify.php"
     modify_form.method = "post"
     modify_form.id = "modify_form"
     modify_form.style.display = "none"
@@ -130,6 +131,7 @@ function create_modify_form(id){
     dummy_ID_input.name = "Serial_no"
     dummy_ID_input.value = id
     dummy_ID_input.style.display = "none"
+    document.body.appendChild(dummy_ID_input)
 
     date_input = document.createElement("input")
     date_input.setAttribute("form", "modify_form")
