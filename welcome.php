@@ -17,6 +17,7 @@
         <div class="tab">
             <button class="tablinks" onclick="loadTab(event, 'Search')" id="defaultOpen">查詢</button>
             <button class="tablinks" onclick="loadTab(event, 'Insert')">新增</button>
+            <button class="tablinks" onclick="loadTab(event, 'Calculate')">計算</button>      
         </div>
 
         <div id="Search" class="tabcontent">
@@ -64,6 +65,29 @@
                 
                 <input type="submit" value="新增一筆資料">
                           
+            </form>
+        </div>
+
+        <div id="Calculate" class="tabcontent">
+            <form action="calculate.php" method="post">
+                <label>
+                    開始時間：<input type="date" id="開始時間" name="Start_Date" value="<?php echo date('Y-m-d'); ?>">
+                </label>
+
+                <label>
+                    結束時間：<input type="date" id="結束時間" name="End_Date" value="<?php echo date('Y-m-d'); ?>">
+                </label>
+
+                <select id="商業/住宅" name="Environment">
+                    <option value="住宅">
+                        住宅
+                    </option>
+                    <option value="商用">
+                        商用
+                    </option>
+                </select>
+
+                <input type="submit" value="查詢資料">
             </form>
         </div>
 
