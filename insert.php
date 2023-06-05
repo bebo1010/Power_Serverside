@@ -20,16 +20,18 @@
         $stmt->bindParam(':Environment', $Environment);
 
         // Execute the prepared statement   
-        if(!$stmt->execute())
-        echo '<script>
-        alert("Insert failed")
-        window.location = "welcome.php"
-        </script>';
+        if(!$stmt->execute()){
+            echo '<script>
+            alert("Insert failed")
+            window.location = "welcome.php"
+            </script>'; 
+            echo "Error on: ". $stmt->errorInfo()[2]. "<br>"; 
+        }
         else
-        echo '<script>
-        alert("Insert Complete!")
-        window.location = "welcome.php"
-        </script>';
+            echo '<script>
+            alert("Insert Complete!")
+            window.location = "welcome.php"
+            </script>';
     } 
     catch (PDOException $e) {
         echo "Connection failed: " . $e->getMessage();
