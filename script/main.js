@@ -1,5 +1,5 @@
-residential_threshold = [1000, 700, 500, 330, 120]
-commercial_threshold = [3000, 1500, 700, 330]
+residential_threshold = [1000, 700, 500, 330, 120, 0]
+commercial_threshold = [3000, 1500, 700, 330, 0]
 
 function loadTab(event, mode){
     // Declare all variables
@@ -244,16 +244,56 @@ function run_delete_form(id){
     delete_form.submit()
 }
 
-function calculate(){
-    // TODO: write client side calculation and show in browser
+function calculate(Environment, in_summer){
+    residential_threshold = [Infinity, 1000, 700, 500, 330, 120, 0]
+    commercial_threshold = [Infinity, 3000, 1500, 700, 330, 0]
+    Month_interval = 2
+    Summer_rate = [6.13, 5.42, 4.61, 3.52, 2.38, 1.63]
     if(Environment == "住宅"){
-        for(index in residential_threshold){
-
-        }
+        threshold = residential_threshold
     }
     if(Environment == "商用"){
-        for(index in commercial_threshold){
+        threshold = commercial_threshold
+    }
+    if(in_summer){
+        cost_rate = Summer_rate
+    }
+    else{
+        cost_rate = Non_summer_rate
+    }
+    base_KWH = 20
+    if(Month_interval > 1){
+        for(index in threshold){
+            // If the calculation involves multiple monthes
+            threshold[index] = threshold[index] * Month_interval
+        }
+        base_KWH = base_KWH * Month_interval
+    }
+    base_cost = base_KWH * cost_rate[(cost_rate.length - 1)]
 
+    // TODO: get total difference from somewhere
+    electricity_used = 500
+    total_cost = 0
+    // Phase 1: calculate highest level
+    current_index = 0
+    for(index in threshold){
+        if(electricity_used > threshold[index]){
+            surpass = electricity_used - threshold[index]
+            total_cost += surpass * cost_rate[(index - 1)]
+            current_index = index
+            break
         }
     }
+    // Phase 2: calculate remaining levels
+    current_index = parseInt(index, 10)
+    while(current_index < (threshold.length - 1)){
+        difference = threshold[current_index] - threshold[(current_index + 1)]
+        total_cost = total_cost + difference * cost_rate[(current_index)]
+        current_index++
+    }
+    // Phase 3: Check base cost(20 KWH per month)
+    if(total_cost < base_cost)
+        total_cost = base_cost
+    
+    return parseFloat(total_cost.toFixed(2))
 }
