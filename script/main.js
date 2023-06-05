@@ -55,6 +55,7 @@ function Add_Row(ID, Date, Power, Environment){
 }
 
 modify_flag = 0
+delete_flag = 0
 
 function controller(object_id){
     mode = object_id.split("_")[0]
@@ -64,7 +65,7 @@ function controller(object_id){
     cancel_button = document.getElementById("Cancel_" + id)
     switch (mode){
         case "Modify":
-            if(modify_flag == 0){
+            if(modify_flag == 0 && delete_flag == 0){
                 confirm_button.style.display = "inline"
                 cancel_button.style.display = "inline"
 
@@ -77,7 +78,14 @@ function controller(object_id){
             }
             break
         case "Delete":
-
+            delete_flag = 1
+            if(confirm("你確定刪除ID為 " + id + " 這行嗎?")){
+                run_delete_form(id)
+            }
+            else{
+                // I guess I don't have to do anything here?
+            }
+            delete_flag = 0
             break
         case "Confirm":
             confirm_button.style.display = "none"
@@ -190,6 +198,26 @@ function destroy_modify_form(id){
     environment_cell.innerHTML = temp_environment
 
     document.body.removeChild(document.getElementById("modify_form"))
+}
+
+function run_delete_form(id){
+
+    delete_form = document.createElement("form")
+    // modify_form.action = "https://httpbin.org/post"
+    delete_form.action = "./delete.php"
+    delete_form.method = "post"
+    delete_form.id = "delete_form"
+    delete_form.style.display = "none"
+    document.body.appendChild(delete_form)
+
+    dummy_ID_input = document.createElement("input")
+    dummy_ID_input.setAttribute("form", "delete_form")
+    dummy_ID_input.name = "Serial_no"
+    dummy_ID_input.value = id
+    dummy_ID_input.style.display = "none"
+    document.body.appendChild(dummy_ID_input)
+
+    delete_form.submit()
 }
 
 function loadTab(event, mode){
