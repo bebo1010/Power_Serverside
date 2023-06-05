@@ -32,13 +32,14 @@
         $stmt->execute();
         $result = $stmt->fetchAll(PDO::FETCH_ASSOC);
     
-        echo '<script> Summer_rate = []; Non_summer_rate = []; Environment = '.$Environment.';';
+        echo '<script> Summer_rate = []; Non_summer_rate = [];';
         foreach ($result as $row) 
         {
             echo 'Summer_rate.push('.$row['Summer_rate'].');';
             echo 'Non_summer_rate.push('.$row['Non-summer_rate'].');';
         }
-        echo 'calculate();';
+        // TODO: Review how to get in summer or not
+        echo 'calculate('.$Environment.');';
         echo '</script>';
     } 
     catch (PDOException $e) {
