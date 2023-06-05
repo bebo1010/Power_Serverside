@@ -1,3 +1,27 @@
+residential_threshold = [1000, 700, 500, 330, 120]
+commercial_threshold = [3000, 1500, 700, 330]
+
+function loadTab(event, mode){
+    // Declare all variables
+    var i, tabcontent, tablinks;
+
+    // Get all elements with class="tabcontent" and hide them
+    tabcontent = document.getElementsByClassName("tabcontent");
+    for (i = 0; i < tabcontent.length; i++) {
+    tabcontent[i].style.display = "none";
+    }
+
+    // Get all elements with class="tablinks" and remove the class "active"
+    tablinks = document.getElementsByClassName("tablinks");
+    for (i = 0; i < tablinks.length; i++) {
+    tablinks[i].className = tablinks[i].className.replace(" active", "");
+    }
+
+    // Show the current tab, and add an "active" class to the button that opened the tab
+    document.getElementById(mode).style.display = "block";
+    event.currentTarget.className += " active";
+}
+
 function Add_Row(ID, Date, Power, Environment){
     new_row = document.getElementById("電表清單").insertRow()
     new_row.id = "Row_" + ID
@@ -220,23 +244,16 @@ function run_delete_form(id){
     delete_form.submit()
 }
 
-function loadTab(event, mode){
-    // Declare all variables
-    var i, tabcontent, tablinks;
+function calculate(){
+    // TODO: write client side calculation and show in browser
+    if(Environment == "住宅"){
+        for(index in residential_threshold){
 
-    // Get all elements with class="tabcontent" and hide them
-    tabcontent = document.getElementsByClassName("tabcontent");
-    for (i = 0; i < tabcontent.length; i++) {
-    tabcontent[i].style.display = "none";
+        }
     }
+    if(Environment == "商用"){
+        for(index in commercial_threshold){
 
-    // Get all elements with class="tablinks" and remove the class "active"
-    tablinks = document.getElementsByClassName("tablinks");
-    for (i = 0; i < tablinks.length; i++) {
-    tablinks[i].className = tablinks[i].className.replace(" active", "");
+        }
     }
-
-    // Show the current tab, and add an "active" class to the button that opened the tab
-    document.getElementById(mode).style.display = "block";
-    event.currentTarget.className += " active";
 }
