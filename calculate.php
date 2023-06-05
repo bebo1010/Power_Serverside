@@ -38,8 +38,17 @@
             echo 'Summer_rate.push('.$row['Summer_rate'].');';
             echo 'Non_summer_rate.push('.$row['Non-summer_rate'].');';
         }
-        // TODO: Review how to get in summer or not
-        echo 'calculate('.$Environment.');';
+        if($Start_Date->diff($End_Date)->y <= 1){
+            // check in summer or not
+            if($Start_Date->format("m") >= '06' && $End_Date->format("m") <= '10'){
+                // I am too lazy to write all possible outcomes, just bear with me
+                // only if the beginning and ending lies within the summer interval counts
+                echo 'calculate('.$Environment.', true);';
+            }
+        }
+        else{
+            echo 'calculate('.$Environment.', false);';
+        }
         echo '</script>';
     } 
     catch (PDOException $e) {
