@@ -3,3 +3,5 @@
 table {border-collapse: collapse; border-style: inset; border: 1px 1px;}
 table td {border: 1px 1px; text-align: center;}
 #電表清單 #標題 {font: 標楷體 16px bold; color: black; text-align: center;}
+
+#Total_cost {font: 標楷體 16px bolder; color: red; text-align: center;}
