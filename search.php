@@ -1,9 +1,6 @@
 <?php
-    require("./welcome.php");
-?>
-
-<?php
     session_start();
+    require("./welcome.php");
 
     $dsn = 'mysql:host=localhost;dbname='.$_SESSION['username'];
     try {
