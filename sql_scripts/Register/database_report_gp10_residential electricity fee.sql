@@ -37,7 +37,7 @@ CREATE TABLE `residential electricity fee` (
 
 LOCK TABLES `residential electricity fee` WRITE;
 /*!40000 ALTER TABLE `residential electricity fee` DISABLE KEYS */;
-INSERT INTO `residential electricity fee` VALUES ('120度以下',1.63,1.63),('121度~330度',2.38,2.1),('331度~500度',3.52,2.89),('501~700度',4.61,3.79),('701~1000度',5.42,4.42),('1000度以上',6.13,4.83);
+INSERT INTO `residential electricity fee` VALUES ('120度以下',1.63,1.63),('121度~330度',2.38,2.1),('331度~500度',3.52,2.89),('501~700度',4.80,3.94),('701~1000度',5.83,4.74),('1000度以上',7.69,6.03);
 /*!40000 ALTER TABLE `residential electricity fee` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
