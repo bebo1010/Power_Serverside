@@ -244,11 +244,31 @@ function run_delete_form(id){
     delete_form.submit()
 }
 
-function calculate(Environment, in_summer){
-    residential_threshold = [Infinity, 1000, 700, 500, 330, 120, 0]
-    commercial_threshold = [Infinity, 3000, 1500, 700, 330, 0]
-    Month_interval = 2
-    Summer_rate = [6.13, 5.42, 4.61, 3.52, 2.38, 1.63]
+function calculate(Environment, in_summer, use_custom_rate){
+    // Month_interval = 2
+    // Summer_rate = [6.13, 5.42, 4.61, 3.52, 2.38, 1.63]
+
+    // get electricity used just by subtracting maximum and minimum?
+    min = Infinity
+    max = 0
+    table = document.getElementById("電表清單")
+    row_count = table.rows.length
+    for(i = 1; i < row_count; i++){     
+        electricity_record = parseInt(table.rows[i].cells[2].innerText, 10)
+        if(min > electricity_record)
+            min = electricity_record
+        if(max < electricity_record)
+            max = electricity_record
+    }
+    electricity_used = max - min
+    total_cost = 0
+    
+    if(use_custom_rate && typeof Custom_rate != undefined){
+        // easy way out, I would say
+        total_cost = electricity_used * Custom_rate
+        show_total_cost(parseFloat(total_cost.toFixed(2)))
+        return 
+    }
     if(Environment == "住宅"){
         threshold = residential_threshold
     }
@@ -264,16 +284,13 @@ function calculate(Environment, in_summer){
     base_KWH = 20
     if(Month_interval > 1){
         for(index in threshold){
-            // If the calculation involves multiple monthes
+            // If the calculation involves multiple months
             threshold[index] = threshold[index] * Month_interval
         }
         base_KWH = base_KWH * Month_interval
     }
     base_cost = base_KWH * cost_rate[(cost_rate.length - 1)]
 
-    // TODO: get total difference from somewhere
-    electricity_used = 500
-    total_cost = 0
     // Phase 1: calculate highest level
     current_index = 0
     for(index in threshold){
@@ -295,5 +312,10 @@ function calculate(Environment, in_summer){
     if(total_cost < base_cost)
         total_cost = base_cost
     
-    return parseFloat(total_cost.toFixed(2))
+    show_total_cost(parseFloat(total_cost.toFixed(2)))
+    return 
+}
+
+function show_total_cost(total_cost){
+    document.getElementById("Total_cost").innerHTML = total_cost.toString()
 }
