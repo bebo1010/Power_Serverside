@@ -69,6 +69,7 @@
         </div>
 
         <div id="Calculate" class="tabcontent">
+            <!-- <form action="https://httpbin.org/post" method="post"> -->
             <form action="calculate.php" method="post">
                 <label>
                     開始時間：<input type="date" id="開始時間" name="Start_Date" value="<?php echo date('Y-m-d'); ?>">
@@ -87,7 +88,13 @@
                     </option>
                 </select>
 
-                <input type="submit" value="查詢資料">
+                <label>
+                    是否使用自定義電費?
+                    <input type="hidden" name="Custom_rate" value="false">
+                    <input type="checkbox" name="Custom_rate" value="true">
+                    <!-- true or false -->
+                </label>
+                <input type="submit" value="計算電費">
             </form>
         </div>
 
@@ -110,7 +117,9 @@
                         操作
                     </th>
                 </tr>
-            </table>
+            </table> <br>
+
+            電費試算價格：<span id="Total_cost" >0</span> 元
         </div>
 
         <script>
