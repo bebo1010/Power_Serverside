@@ -90,9 +90,7 @@ $_SESSION['username'] = $user['username'];
 $_SESSION['password'] = $user['password'];
 $_SESSION['custom_cost'] = $user['custom_cost'];
 
-// TODO: Create database and add tables to the database
-// header('Location: welcome.php');
-
-// 
+session_write_close();
+header('Location: welcome.php');
 ?>
 
