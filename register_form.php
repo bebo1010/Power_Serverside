@@ -47,7 +47,7 @@
                 <tr>
                     <td width="80" align="center" valign="baseline">自訂電費</td>
                     <td valign="baseline">
-                        <input type="number" name="custom_cost" id="custom_cost" placeholder="請填入每度幾元，非必填"></td>
+                        <input type="number" name="custom_cost" id="custom_cost" min="0" step="0.01" placeholder="請填入每度幾元，非必填"></td>
                 </tr>
                 <tr>
                     <td colspan="2" align="center" bgcolor="#CCCCCC">
