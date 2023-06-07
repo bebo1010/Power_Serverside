@@ -296,7 +296,7 @@ function calculate(Environment, in_summer, use_custom_rate){
     for(index in threshold){
         if(electricity_used > threshold[index]){
             surpass = electricity_used - threshold[index]
-            total_cost += surpass * cost_rate[(index - 1)]
+            total_cost += surpass * cost_rate[index]
             current_index = index
             break
         }
@@ -305,7 +305,8 @@ function calculate(Environment, in_summer, use_custom_rate){
     current_index = parseInt(index, 10)
     while(current_index < (threshold.length - 1)){
         difference = threshold[current_index] - threshold[(current_index + 1)]
-        total_cost = total_cost + difference * cost_rate[(current_index)]
+        this_level_cost = difference * cost_rate[(current_index + 1)]
+        total_cost = total_cost + this_level_cost
         current_index++
     }
     // Phase 3: Check base cost(20 KWH per month)
