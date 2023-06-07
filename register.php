@@ -85,12 +85,6 @@ catch (PDOException $e) {
     echo "Connection failed: " . $e->getMessage();
 }
 
-session_start();
-$_SESSION['username'] = $user['username'];
-$_SESSION['password'] = $user['password'];
-$_SESSION['custom_cost'] = $user['custom_cost'];
-
-session_write_close();
-header('Location: welcome.php');
+header('Location: start.php');
 ?>
 
